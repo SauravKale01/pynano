@@ -12,7 +12,7 @@ def generate_welcome_image():
     group_name = data['group_name']
 
     # Load the background image
-    background_image = Image.open('background.jpg')
+    background_image = Image.open('IMG_20230601_152627_048.jpg')
 
     # Create a copy of the background image
     welcome_image = background_image.copy()
