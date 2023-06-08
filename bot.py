@@ -18,7 +18,7 @@ def start_command(client, message):
     # Send a welcome message with an image
     client.send_photo(
         chat_id=message.chat.id,
-        photo="https://example.com/my_image.jpg",
+        photo="https://graph.org/file/0f929eba3345324c98f3e.jpg",
         caption=f"🟢 **Name:** Nano\n"
                 f"🟢 **Username:** @SexyNano\n"
                 f"🟢 **User ID:** 6198858059\n"
