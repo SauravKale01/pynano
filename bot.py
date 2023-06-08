@@ -28,7 +28,7 @@ def start_command(client, message):
     )
 
 # Help command handler
-
+#ghn
 @app.on_message(filters.command("help"))
 def help_command(client, message):
 
