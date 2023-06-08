@@ -5,7 +5,7 @@ from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 # Replace with your own API credentials
 api_id = "16743442"
 api_hash = "12bbd720f4097ba7713c5e40a11dfd2a"
-bot_token = "6206599982:AAEtRoU2jV7heQn8t0Zkwh1L6khiC8EXfcM"
+bot_token = "6206599982:AAHlSuj0dD0ETAr7GuWBojmhFPzROr8t250"
 
 # Create a Pyrogram client
 app = pyrogram.Client("my_bot", api_id=api_id, api_hash=api_hash, bot_token=bot_token)
@@ -44,8 +44,6 @@ def help_command(client, message):
         ]
     )
 
-    # Get your bot's information
-    bot_info = app.get_chat(bot_token)
 
     # Construct the help message with bot info
 
