@@ -1,93 +1,62 @@
-from pyrogram import Client, filters, idle
+import pyrogram
+from pyrogram import filters, idle
+from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-import requests
-
+# Replace with your own API credentials
+api_id = "16743442"
+api_hash = "12bbd720f4097ba7713c5e40a11dfd2a"
 bot_token = "6206599982:AAEtRoU2jV7heQn8t0Zkwh1L6khiC8EXfcM"
 
-api_id = "16743442"
+# Create a Pyrogram client
+app = pyrogram.Client("my_bot", api_id=api_id, api_hash=api_hash, bot_token=bot_token)
 
-api_hash = "12bbd720f4097ba7713c5e40a11dfd2a"
+# Start command handler
 
-bot = Client("pet_care_bot", api_id=api_id, api_hash=api_hash, bot_token=bot_token)
-
-PETFINDER_API_URL = "https://api.petfinder.com/v2"
-YOUR_PETFINDER_API_TOKEN = "ebWoRlapNs1QBu3N65cAhxMU9wzGo1VvicGQUY6Ad0d3NOrxjU"
-
-@bot.on_message(filters.command("start"))
-
+@app.on_message(filters.command("start"))
 def start_command(client, message):
 
-    client.send_message(message.chat.id, "Welcome to Pet Care Bot! How can I assist you?")
+    # Send a welcome message with an image
+    client.send_photo(
+        chat_id=message.chat.id,
+        photo="https://example.com/my_image.jpg",
+        caption=f"🟢 **Name:** Nano\n"
+                f"🟢 **Username:** @SexyNano\n"
+                f"🟢 **User ID:** 6198858059\n"
+                f"🟢 **Birthday:** 03 June\n"
+                f"🟢 **Age:** 18+\n"
+                f"🟢 **From:** Maharashtra\n"
+    )
 
-@bot.on_message(filters.command("petcaretips"))
+# Help command handler
 
-def pet_care_tips_command(client, message):
+@app.on_message(filters.command("help"))
+def help_command(client, message):
 
-    client.send_message(message.chat.id, "Sorry, pet care tips are currently unavailable. Please try again later.")
+    # Create an inline keyboard with bot list
+    keyboard = InlineKeyboardMarkup(
+        [
+            [InlineKeyboardButton("Bot 1", url="https://example.com/bot1")],
+            [InlineKeyboardButton("Bot 2", url="https://example.com/bot2")],
+            [InlineKeyboardButton("Bot 3", url="https://example.com/bot3")],
+        ]
+    )
 
-@bot.on_message(filters.command("breedinfo"))
+    # Get your bot's information
+    bot_info = app.get_chat(bot_token)
 
-def breed_info_command(client, message):
+    # Construct the help message with bot info
 
-    if len(message.command) < 2:
+    help_message = f"🤖 **My Bot Info** 🤖\n\n" \
+                   f"🟢 **Name:** {bot_info.title}\n" \
+                   f"🟢 **Username:** @{bot_info.username}\n" \
+                   f"🟢 **Description:** {bot_info.description}\n"
 
-        client.send_message(message.chat.id, "Please provide a breed name.")
-
-        return
-
-    breed_name = " ".join(message.command[1:])
-
-    headers = {"Authorization": f"Bearer {YOUR_PETFINDER_API_TOKEN}"}
-
-    response = requests.get(f"{PETFINDER_API_URL}/types/dog/breeds?q={breed_name}", headers=headers)
-
-    data = response.json()
-
-    if "breeds" not in data:
-
-        client.send_message(message.chat.id, "Breed information not found.")
-
-        return
-
-    breed = data["breeds"][0]
-
-    breed_info = f"Breed Name: {breed['name']}\n\nDescription: {breed['description']}"
-
-    client.send_message(message.chat.id, breed_info)
-
-@bot.on_message(filters.command("findvet"))
-
-def find_vet_command(client, message):
-
-    if len(message.command) < 2:
-
-        client.send_message(message.chat.id, "Please provide your location.")
-
-        return
-
-    location = " ".join(message.command[1:])
-
-    headers = {"Authorization": f"Bearer {YOUR_PETFINDER_API_TOKEN}"}
-
-    response = requests.get(f"{PETFINDER_API_URL}/organizations?type=veterinarian&location={location}", headers=headers)
-
-    data = response.json()
-
-    if "organizations" not in data:
-
-        client.send_message(message.chat.id, "No veterinary services found.")
-
-        return
-
-    organizations = data["organizations"]
-
-    vet_info = "Veterinary Services near you:\n\n"
-
-    for org in organizations:
-
-        vet_info += f"Name: {org['name']}\nLocation: {org['address']['address1']}, {org['address']['city']}\n\n"
-
-    client.send_message(message.chat.id, vet_info)
-
-bot.run()
+    # Send help message with inline keyboard
+    client.send_message(
+        chat_id=message.chat.id,
+        text=help_message,
+        reply_markup=keyboard
+    )
+# Run the bot
+app.start()
 idle()
