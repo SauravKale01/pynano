@@ -11,6 +11,7 @@ api_hash = "12bbd720f4097ba7713c5e40a11dfd2a"
 bot = Client("pet_care_bot", api_id=api_id, api_hash=api_hash, bot_token=bot_token)
 
 PETFINDER_API_URL = "https://api.petfinder.com/v2"
+YOUR_PETFINDER_API_TOKEN = "ebWoRlapNs1QBu3N65cAhxMU9wzGo1VvicGQUY6Ad0d3NOrxjU"
 
 @bot.on_message(filters.command("start"))
 
@@ -36,7 +37,7 @@ def breed_info_command(client, message):
 
     breed_name = " ".join(message.command[1:])
 
-    headers = {"Authorization": f"Bearer {ebWoRlapNs1QBu3N65cAhxMU9wzGo1VvicGQUY6Ad0d3NOrxjU}"}
+    headers = {"Authorization": f"Bearer {YOUR_PETFINDER_API_TOKEN}"}
 
     response = requests.get(f"{PETFINDER_API_URL}/types/dog/breeds?q={breed_name}", headers=headers)
 
@@ -66,7 +67,7 @@ def find_vet_command(client, message):
 
     location = " ".join(message.command[1:])
 
-    headers = {"Authorization": f"Bearer {ebWoRlapNs1QBu3N65cAhxMU9wzGo1VvicGQUY6Ad0d3NOrxjU}"}
+    headers = {"Authorization": f"Bearer {YOUR_PETFINDER_API_TOKEN}"}
 
     response = requests.get(f"{PETFINDER_API_URL}/organizations?type=veterinarian&location={location}", headers=headers)
 
