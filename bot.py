@@ -35,9 +35,12 @@ def help_command(client, message):
     # Create an inline keyboard with bot list
     keyboard = InlineKeyboardMarkup(
         [
-            [InlineKeyboardButton("Bot 1", url="https://example.com/bot1")],
-            [InlineKeyboardButton("Bot 2", url="https://example.com/bot2")],
-            [InlineKeyboardButton("Bot 3", url="https://example.com/bot3")],
+            [InlineKeyboardButton("Camellia", url="t.me.MissCamellia_Bot")],
+            [InlineKeyboardButton("Nobara Music", url="t.me.Nobara_Music_Bot")],
+            [InlineKeyboardButton("Temp Mail Bot", url="t.me.TempMailGenRoBot")],
+            [InlineKeyboardButton("The Komi", url="t.me.TheKomi_Bot")],
+            [InlineKeyboardButton("My Channel", url="t.me.Index_AC")],
+            [InlineKeyboardButton("Chat Group", url="t.me.Anime_Krew")],
         ]
     )
 
