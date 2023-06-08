@@ -2,7 +2,7 @@ from pyrogram import Client, filters, idle
 
 import requests
 
-bot_token = "YOUR_BOT_TOKEN"
+bot_token = "6206599982:AAEtRoU2jV7heQn8t0Zkwh1L6khiC8EXfcM"
 
 api_id = "16743442"
 
