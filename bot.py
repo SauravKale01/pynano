@@ -47,9 +47,9 @@ def help_command(client, message):
     # Construct the help message with bot info
 
     help_message = f"🤖 **My Bot Info** 🤖\n\n" \
-                   f"🟢 **Name:** {bot_info.title}\n" \
-                   f"🟢 **Username:** @{bot_info.username}\n" \
-                   f"🟢 **Description:** {bot_info.description}\n"
+                   f"🟢 **Name:**About Nano\n" \
+                   f"🟢 **Username:**@AboutNanoBot\n" \
+                   f"🟢 **Description:**This Bot Made By Nano\n"
 
     # Send help message with inline keyboard
     client.send_message(
