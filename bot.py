@@ -189,10 +189,10 @@ def help(bot: Client, message: Message):
         "Commands:\n"
         "/start - Start the bot and get a welcome message.\n"
         "/help - Get help and instructions for using the bot.\n"
-        "/weather <location> - Get the current weather for a location."
-        "/aqi <location> - Get the current api pollution information for a location."
+        "/weather <location> - Get the current weather for a location.\n"
+        "/aqi <location> - Get the current api pollution information for a location.\n"
         "/forecast <location> - Get the Next 3 days Forecast information."
-
+      
     )
 
     bot.send_message(chat_id=message.chat.id, text=help_text)
@@ -249,7 +249,7 @@ def forecast(bot: Client, message: Message):
 
         forecast_data = forecast_response.json()
 
-        if forecast_data:
+        if "DailyForecasts" in forecast_data:
 
             bot.send_message(
 
@@ -357,13 +357,13 @@ def aqi(bot: Client, message: Message):
 
         aqi_data = aqi_response.json()
 
-        if aqi_data:
+        if aqi_data and "AirAndPollen" in aqi_data[0]:
 
-            aqi_value = aqi_data[0]["AirAndPollen"][0]["Value"]
+            aqi_value = aqi_data[0]["AirAndPollen"][0].get("Value")
 
-            aqi_category = aqi_data[0]["AirAndPollen"][0]["Category"]
+            aqi_category = aqi_data[0]["AirAndPollen"][0].get("Category")
 
-            aqi_text = aqi_data[0]["AirAndPollen"][0]["Text"]
+            aqi_text = aqi_data[0]["AirAndPollen"][0].get("Text")
 
             bot.send_message(
 
@@ -411,7 +411,7 @@ def aqi(bot: Client, message: Message):
 
         )
 
-
+    
     
 # Run the bot
 
