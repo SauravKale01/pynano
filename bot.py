@@ -19,6 +19,22 @@ def start_command(client, message):
     caption = 'Welcome to the Weather Bot! Enjoy your stay.'
     client.send_photo(message.chat.id, 'https://graph.org/file/c59aa664bb6f449f271b5.jpg', caption=caption)
 
+# Help command handler
+@bot.on_message(filters.command('help'))
+def help_command(client, message):
+    # Provide a help menu with examples
+    help_text = (
+        "I'm a Weather Bot and I can provide you with weather forecasts!\n\n"
+        "Here are some commands you can use:\n"
+        "/start - Start the bot and receive a welcome message.\n"
+        "/weather <location> - Get the weather forecast for a specific location.\n"
+        "/help - Show this help menu.\n\n"
+        "**Example usage:**\n"
+        "/weather New York - Get the weather forecast for New York.\n"
+        "/weather London, UK - Get the weather forecast for London, UK."
+    )
+    client.send_message(message.chat.id, help_text)
+    
 
 # Weather command handler
 @bot.on_message(filters.command('weather'))
