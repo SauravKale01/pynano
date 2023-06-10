@@ -218,12 +218,7 @@ def weather_command(client, message):
 
     client.send_message(message.chat.id, message_text)
 
-if __name__ == '__main__':
+
 
     bot.start()
-
-    # Send a deployment success message
-
-    bot.send_message('-1001905486162', 'Bot deployed successfully!')
-
     idle()
