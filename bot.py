@@ -3,7 +3,7 @@ from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 import requests
 
 # Initialize your bot
-bot = Client("accuweather_bot", bot_token="6206599982:AAE5HLjxGJA-aSTV0YZCgFnrpgzGhtvIoMA", api_id=16743442, api_hash="12bbd720f4097ba7713c5e40a11dfd2a")
+bot = Client("accuweather_bot", bot_token="YOUR_TELEGRAM_BOT_TOKEN", api_id=16743442, api_hash="12bbd720f4097ba7713c5e40a11dfd2a")
 
 # Define the AccuWeather API endpoint and your API key
 base_url = "http://dataservice.accuweather.com"
@@ -59,9 +59,20 @@ def weather(bot: Client, message: Message):
             image_response = requests.get(image_endpoint, params=image_params)
             image_data = image_response.json()
 
-            if image_data and "Link" in image_data[0]:
-                image_link = image_data[0]["Link"]
-                bot.send_photo(chat_id=message.chat.id, photo=image_link)
+            if image_data and isinstance(image_data, list) and len(image_data) > 0:
+                if "Link" in image_data[0]:
+                    image_link = image_data[0]["Link"]
+                    bot.send_photo(chat_id=message.chat.id, photo=image_link)
+                else:
+                    bot.send_message(
+                        chat_id=message.chat.id,
+                        text="No image available for the weather.",
+                    )
+            else:
+                bot.send_message(
+                    chat_id=message.chat.id,
+                    text="No image available for the weather.",
+                )
         else:
             bot.send_message(
                 chat_id=message.chat.id,
@@ -132,4 +143,4 @@ def error_handler(bot: Client, message: Message):
 
 # Run the bot
 bot.run()
-idle() 
+idle()
