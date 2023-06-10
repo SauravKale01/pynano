@@ -14,7 +14,7 @@ api_key = "Ct2XMUchemaAmFlwik3mGDRneIlhiyYc"
 def start(bot: Client, message: Message):
     bot.send_message(
         chat_id=message.chat.id,
-        text="Welcome to AccuWeather Bot!\n\nUse /weather <location> to get the current weather information for a location.",
+        text="Welcome to AccuWeather Bot!\n\nUse /weather <location> to get the current weather information for a location.\n\n➠ Dev : @SexyNano",
     )
 
 # Handle the "/weather" command
@@ -34,94 +34,72 @@ def weather(bot: Client, message: Message):
 
     if data:
         location_key = data[0]["Key"]
-        forecast_endpoint = f"{base_url}/currentconditions/v1/{location_key}"
+        forecast_endpoint = f"{base_url}/forecasts/v1/daily/5day/{location_key}"
         forecast_params = {
-            "apikey": api_key
+            "apikey": api_key,
+            "metric": True
         }
         forecast_response = requests.get(forecast_endpoint, params=forecast_params)
         forecast_data = forecast_response.json()
 
         if forecast_data:
-            weather_text = forecast_data[0]["WeatherText"]
-            temperature = forecast_data[0]["Temperature"]["Metric"]["Value"]
-
-            # Send weather text as a message
             bot.send_message(
                 chat_id=message.chat.id,
-                text=f"The weather in {location} is {weather_text} with a temperature of {temperature}°C.",
+                text=f"Weather in {location}:"
             )
 
-            # Send weather image
-            image_endpoint = f"{base_url}/currentconditions/v1/{location_key}/images"
-            image_params = {
-                "apikey": api_key
-            }
-            image_response = requests.get(image_endpoint, params=image_params)
-            image_data = image_response.json()
+            for day in forecast_data["DailyForecasts"]:
+                date = day["Date"]
+                min_temp = day["Temperature"]["Minimum"]["Value"]
+                max_temp = day["Temperature"]["Maximum"]["Value"]
+                day_text = day["Day"]["IconPhrase"]
+                night_text = day["Night"]["IconPhrase"]
 
-            if image_data and isinstance(image_data, list) and len(image_data) > 0:
-                if "Link" in image_data[0]:
-                    image_link = image_data[0]["Link"]
-                    bot.send_photo(chat_id=message.chat.id, photo=image_link)
-                else:
-                    bot.send_message(
-                        chat_id=message.chat.id,
-                        text="No image available for the weather.",
-                    )
-            else:
+                weather_text = (
+                    f"Date: {date}\n"
+                    f"Min Temp: {min_temp}°C\n"
+                    f"Max Temp: {max_temp}°C\n"
+                    f"Day: {day_text}\n"
+                    f"Night: {night_text}\n\n"
+                )
+
                 bot.send_message(
                     chat_id=message.chat.id,
-                    text="No image available for the weather.",
+                    text=weather_text
                 )
+
+            # Send inline button for more information
+            button_text = "More Information"
+            button_data = f"more_{location}"
+            reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton(button_text, callback_data=button_data)]])
+            bot.send_message(
+                chat_id=message.chat.id,
+                text="For more information, click the button below:",
+                reply_markup=reply_markup
+            )
         else:
             bot.send_message(
                 chat_id=message.chat.id,
                 text="Unable to fetch the weather information.",
             )
     else:
-        bot.send_message(chat_id=message.chat.id, text="Location not found.")
+        bot.send_message(
+            chat_id=message.chat.id,
+            text="Location not found.",
+        )
 
-# Handle inline queries
-@bot.on_inline_query()
-def inline_weather(bot: Client, query):
-    # Get the query text (location) from the inline query
-    location = query.query
+# Handle inline button callbacks
+@bot.on_callback_query()
+def button_callback(bot: Client, query):
+    callback_data = query.data
 
-    # Make a request to the AccuWeather API to get the weather information
-    endpoint = f"{base_url}/locations/v1/cities/search"
-    params = {
-        "apikey": api_key,
-        "q": location
-    }
-    response = requests.get(endpoint, params=params)
-    data = response.json()
-
-    if data:
-        location_key = data[0]["Key"]
-        forecast_endpoint = f"{base_url}/currentconditions/v1/{location_key}"
-        forecast_params = {
-            "apikey": api_key
-        }
-        forecast_response = requests.get(forecast_endpoint, params=forecast_params)
-        forecast_data = forecast_response.json()
-
-        if forecast_data:
-            weather_text = forecast_data[0]["WeatherText"]
-            temperature = forecast_data[0]["Temperature"]["Metric"]["Value"]
-            results = [
-                InlineQueryResultArticle(
-                    id="1",
-                    title=f"Weather in {location}",
-                    input_message_content=InputTextMessageContent(
-                        f"The weather in {location} is {weather_text} with a temperature of {temperature}°C."
-                    ),
-                )
-            ]
-            bot.answer_inline_query(query.id, results=results)
-        else:
-            bot.answer_inline_query(query.id, results=[])
-    else:
-        bot.answer_inline_query(query.id, results=[])
+    if callback_data.startswith("more_"):
+        location = callback_data[5:]
+        bot.send_message(
+            chat_id=query.message.chat.id,
+            text=f"More information about {location}..."
+        )
+        # You can add more code here to fetch and send additional information about the weather for the location
 
 # Handle the "/help" command
 @bot.on_message(filters.command("help"))
@@ -144,3 +122,4 @@ def error_handler(bot: Client, message: Message):
 # Run the bot
 bot.run()
 idle()
+      
