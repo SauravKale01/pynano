@@ -6,13 +6,13 @@ import requests
 
 # Initialize your bot
 
-bot = Client("accuweather_bot", bot_token="YOUR_TELEGRAM_BOT_TOKEN", api_id=12345, api_hash="YOUR_API_HASH")
+bot = Client("accuweather_bot", bot_token="6169875332:AAFgpEnSNbY49ix4Sd1UiRQIbA_jGEhM_ZM", api_id=16743442, api_hash="12bbd720f4097ba7713c5e40a11dfd2a")
 
 # Define the AccuWeather API endpoint and your API key
 
 base_url = "http://dataservice.accuweather.com"
 
-api_key = "YOUR_ACCUWEATHER_API_KEY"
+api_key = "Ct2XMUchemaAmFlwik3mGDRneIlhiyYc"
 
 # Handle the "/start" command
 
