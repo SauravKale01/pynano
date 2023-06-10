@@ -10,7 +10,7 @@ bot = Client(
 
     "accuweather_bot",
 
-    bot_token="YOUR_BOT_TOKEN",
+    bot_token="6169875332:AAFgpEnSNbY49ix4Sd1UiRQIbA_jGEhM_ZM",
 
     api_id=16743442,
 
@@ -22,7 +22,7 @@ bot = Client(
 
 base_url = "http://dataservice.accuweather.com"
 
-api_key = "YOUR_ACCUWEATHER_API_KEY"
+api_key = "Ct2XMUchemaAmFlwik3mGDRneIlhiyYc"
 
 # Handle the "/start" command
 
