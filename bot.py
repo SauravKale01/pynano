@@ -123,6 +123,9 @@ def weather_command(client, message):
     message_text += f'**Night**: {night_weather_text}\n'
     client.send_message(message.chat.id, message_text)
 
-# Run the bot
-bot.run()
+if __name__ == '__main__':
+    bot.start()
+
+    # Send a deployment success message
+    bot.send_message('your_chat_id', 'Bot deployed successfully!')
 idle()
