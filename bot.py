@@ -16,7 +16,7 @@ bot = Client('weather_bot', api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKE
 @bot.on_message(filters.command('start'))
 def start_command(client, message):
     # Send a welcome caption and an image
-    caption = 'Welcome to the Weather Bot! Enjoy your stay.'
+    caption = 'Welcome to the AccuWeather Bot!.'
     client.send_photo(message.chat.id, 'https://graph.org/file/c59aa664bb6f449f271b5.jpg', caption=caption)
 
 # Help command handler
@@ -24,14 +24,14 @@ def start_command(client, message):
 def help_command(client, message):
     # Provide a help menu with examples
     help_text = (
-        "I'm a Weather Bot and I can provide you with weather forecasts!\n\n"
+        "I'm a AccuWeather Bot and I can provide you with weather forecasts!\n\n"
         "Here are some commands you can use:\n"
         "/start - Start the bot and receive a welcome message.\n"
         "/weather <location> - Get the weather forecast for a specific location.\n"
         "/help - Show this help menu.\n\n"
         "**Example usage:**\n"
-        "/weather New York - Get the weather forecast for New York.\n"
-        "/weather London, UK - Get the weather forecast for London, UK."
+        "```/weather New York``` - Get the weather forecast for New York.\n"
+        "```/weather London, UK``` - Get the weather forecast for London, UK."
     )
     client.send_message(message.chat.id, help_text)
     
@@ -40,6 +40,11 @@ def help_command(client, message):
 @bot.on_message(filters.command('weather'))
 def weather_command(client, message):
     # Get the location from the message arguments
+    if len(message.command) < 2:
+        # If no location is provided, send a message requesting the location
+        client.send_message(message.chat.id, "Please provide a location. For example: ```/weather New York```")
+        return
+
     location = ' '.join(message.command[1:])
 
     # Query the AccuWeather API for the weather information
@@ -66,10 +71,10 @@ def weather_command(client, message):
 
     # Send the weather information to the user
     message_text = f'Weather forecast for {location} - {date}:\n'
-    message_text += f'Min Temperature: {temperature_min}°C\n'
-    message_text += f'Max Temperature: {temperature_max}°C\n'
-    message_text += f'Day: {day_weather_text}\n'
-    message_text += f'Night: {night_weather_text}\n'
+    message_text += f'**Min Temperature**: {temperature_min}°C\n'
+    message_text += f'**Max Temperature**: {temperature_max}°C\n'
+    message_text += f'**Day**: {day_weather_text}\n'
+    message_text += f'**Night**: {night_weather_text}\n'
     client.send_message(message.chat.id, message_text)
 
 # Run the bot
