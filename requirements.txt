@@ -1,2 +1,2 @@
-pyrogram==1.4.1
+pyrogram==1.4.0
 requests==2.26.0
