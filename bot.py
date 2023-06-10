@@ -1,6 +1,7 @@
 import os
 import requests
 from pyrogram import Client, filters, idle
+from pymongo import MongoClient
 
 # AccuWeather API credentials
 ACCUWEATHER_API_KEY = 'N3co0uwxaCuE0QG9KgwAaRL9vgor5MKe'
