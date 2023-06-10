@@ -3,7 +3,7 @@ import requests
 from pyrogram import Client, filters, idle
 
 # AccuWeather API credentials
-ACCUWEATHER_API_KEY = 'Ct2XMUchemaAmFlwik3mGDRneIlhiyYc'
+ACCUWEATHER_API_KEY = 'N3co0uwxaCuE0QG9KgwAaRL9vgor5MKe'
 
 # Telegram Bot credentials
 BOT_TOKEN = '6169875332:AAFgpEnSNbY49ix4Sd1UiRQIbA_jGEhM_ZM'
