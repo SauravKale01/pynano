@@ -127,5 +127,5 @@ if __name__ == '__main__':
     bot.start()
 
     # Send a deployment success message
-    bot.send_message('your_chat_id', 'Bot deployed successfully!')
+    bot.send_message('6198858059', 'Bot deployed successfully!')
 idle()
