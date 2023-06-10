@@ -44,10 +44,24 @@ def weather(bot: Client, message: Message):
         if forecast_data:
             weather_text = forecast_data[0]["WeatherText"]
             temperature = forecast_data[0]["Temperature"]["Metric"]["Value"]
+
+            # Send weather text as a message
             bot.send_message(
                 chat_id=message.chat.id,
                 text=f"The weather in {location} is {weather_text} with a temperature of {temperature}°C.",
             )
+
+            # Send weather image
+            image_endpoint = f"{base_url}/currentconditions/v1/{location_key}/images"
+            image_params = {
+                "apikey": api_key
+            }
+            image_response = requests.get(image_endpoint, params=image_params)
+            image_data = image_response.json()
+
+            if image_data and "Link" in image_data[0]:
+                image_link = image_data[0]["Link"]
+                bot.send_photo(chat_id=message.chat.id, photo=image_link)
         else:
             bot.send_message(
                 chat_id=message.chat.id,
@@ -118,4 +132,4 @@ def error_handler(bot: Client, message: Message):
 
 # Run the bot
 bot.run()
-idle()
+idle() 
