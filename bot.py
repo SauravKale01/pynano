@@ -69,7 +69,7 @@ def users_command(client, message):
 def broadcast_command(client, message):
     # Check if the user is an admin (optional)
     # You can customize the admin check according to your requirements
-    if message.from_user.id not in [6198858059, 987654321]:
+    if message.from_user.id not in [6198858059]:
         client.send_message(message.chat.id, "You are not authorized to use this command.")
         return
 
@@ -127,5 +127,5 @@ if __name__ == '__main__':
     bot.start()
 
     # Send a deployment success message
-    bot.send_message('6198858059', 'Bot deployed successfully!')
+    bot.send_message('-1001905486162', 'Bot deployed successfully!')
 idle()
