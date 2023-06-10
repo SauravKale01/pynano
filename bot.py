@@ -10,31 +10,76 @@ BOT_TOKEN = '6169875332:AAFgpEnSNbY49ix4Sd1UiRQIbA_jGEhM_ZM'
 API_ID = '16743442'
 API_HASH = '12bbd720f4097ba7713c5e40a11dfd2a'
 
+# MongoDB credentials
+MONGODB_URI = 'mongodb+srv://sonu55:sonu55@cluster0.vqztrvk.mongodb.net/?retryWrites=true&w=majority'
+MONGODB_DATABASE = 'weather_bot'
+MONGODB_COLLECTION = 'users'
+
 # Initialize the Telegram bot
 bot = Client('weather_bot', api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
 
+# Initialize the MongoDB client
+mongo_client = MongoClient(MONGODB_URI)
+db = mongo_client[MONGODB_DATABASE]
+users_collection = db[MONGODB_COLLECTION]
+
+# Start command handler
 @bot.on_message(filters.command('start'))
 def start_command(client, message):
+    # Save the user in the database
+    user = {
+        'user_id': message.from_user.id,
+        'username': message.from_user.username,
+        'first_name': message.from_user.first_name,
+        'last_name': message.from_user.last_name,
+    }
+    users_collection.insert_one(user)
     # Send a welcome caption and an image
-    caption = 'Welcome to the AccuWeather Bot!.'
-    client.send_photo(message.chat.id, 'https://graph.org/file/c59aa664bb6f449f271b5.jpg', caption=caption)
+    caption = 'Welcome to the Weather Bot! Enjoy your stay.'
+    client.send_photo(message.chat.id, 'https://example.com/welcome_image.jpg', caption=caption)
 
 # Help command handler
 @bot.on_message(filters.command('help'))
 def help_command(client, message):
     # Provide a help menu with examples
     help_text = (
-        "I'm a AccuWeather Bot and I can provide you with weather forecasts!\n\n"
+        "I'm a Weather Bot and I can provide you with weather forecasts!\n\n"
         "Here are some commands you can use:\n"
         "/start - Start the bot and receive a welcome message.\n"
         "/weather <location> - Get the weather forecast for a specific location.\n"
-        "/help - Show this help menu.\n\n"
-        "**Example usage:**\n"
-        "```/weather New York``` - Get the weather forecast for New York.\n"
-        "```/weather London, UK``` - Get the weather forecast for London, UK."
+        "/help - Show this help menu.\n"
+        "/users - Get the total number of users who started the bot.\n"
+        "/broadcast <message> - Send a broadcast message to all users who started the bot.\n\n"
+        "Example usage:\n"
+        "/weather New York - Get the weather forecast for New York.\n"
+        "/weather London, UK - Get the weather forecast for London, UK."
     )
     client.send_message(message.chat.id, help_text)
-    
+
+# Users command handler
+@bot.on_message(filters.command('users'))
+def users_command(client, message):
+    # Get the total number of users from the database
+    total_users = users_collection.count_documents({})
+    client.send_message(message.chat.id, f"Total users: {total_users}")
+
+# Broadcast command handler
+@bot.on_message(filters.command('broadcast'))
+def broadcast_command(client, message):
+    # Check if the user is an admin (optional)
+    # You can customize the admin check according to your requirements
+    if message.from_user.id not in [6198858059, 987654321]:
+        client.send_message(message.chat.id, "You are not authorized to use this command.")
+        return
+
+    # Get the broadcast message from the command arguments
+    broadcast_message = ' '.join(message.command[1:])
+    # Fetch all users from the database
+    users = users_collection.find()
+    # Send the broadcast message to all users
+    for user in users:
+        user_id = user['user_id']
+        client.send_message(user_id, broadcast_message)
 
 # Weather command handler
 @bot.on_message(filters.command('weather'))
