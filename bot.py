@@ -1,63 +1,121 @@
-import pyrogram
-from pyrogram import filters, idle
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from pyrogram import Client, filters, idle
+from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
+import requests
 
-# Replace with your own API credentials
-api_id = "16743442"
-api_hash = "12bbd720f4097ba7713c5e40a11dfd2a"
-bot_token = "6206599982:AAHlSuj0dD0ETAr7GuWBojmhFPzROr8t250"
+# Initialize your bot
+bot = Client("accuweather_bot", bot_token="YOUR_TELEGRAM_BOT_TOKEN", api_id=16743442, api_hash="12bbd720f4097ba7713c5e40a11dfd2a")
 
-# Create a Pyrogram client
-app = pyrogram.Client("my_bot", api_id=api_id, api_hash=api_hash, bot_token=bot_token)
+# Define the AccuWeather API endpoint and your API key
+base_url = "http://dataservice.accuweather.com"
+api_key = "Ct2XMUchemaAmFlwik3mGDRneIlhiyYc"
 
-# Start command handler
-
-@app.on_message(filters.command("start"))
-def start_command(client, message):
-
-    # Send a welcome message with an image
-    client.send_photo(
+# Handle the "/start" command
+@bot.on_message(filters.command("start"))
+def start(bot: Client, message: Message):
+    bot.send_message(
         chat_id=message.chat.id,
-        photo="https://graph.org/file/0f929eba3345324c98f3e.jpg",
-        caption=f"🟢 **Name:** Nano\n"
-                f"🟢 **Username:** @SexyNano\n"
-                f"🟢 **User ID:** 6198858059\n"
-                f"🟢 **Birthday:** 03 June\n"
-                f"🟢 **Age:** 18+\n"
-                f"🟢 **From:** Maharashtra\n"
+        text="Welcome to AccuWeather Bot!\n\nUse /weather <location> to get the current weather information for a location.",
     )
 
-# Help command handler
-#ghn
-@app.on_message(filters.command("help"))
-def help_command(client, message):
+# Handle the "/weather" command
+@bot.on_message(filters.command("weather"))
+def weather(bot: Client, message: Message):
+    # Get the location from the command arguments
+    location = " ".join(message.command[1:])
 
-    # Create an inline keyboard with bot list
-    keyboard = InlineKeyboardMarkup(
-        [
-            [InlineKeyboardButton("Camellia", url="t.me.MissCamellia_Bot")],
-            [InlineKeyboardButton("Nobara Music", url="t.me.Nobara_Music_Bot")],
-            [InlineKeyboardButton("Temp Mail Bot", url="t.me.TempMailGenRoBot")],
-            [InlineKeyboardButton("The Komi", url="t.me.TheKomi_Bot")],
-            [InlineKeyboardButton("My Channel", url="t.me.Index_AC")],
-            [InlineKeyboardButton("Chat Group", url="t.me.Anime_Krew")],
-        ]
+    # Make a request to the AccuWeather API to get the weather information
+    endpoint = f"{base_url}/locations/v1/cities/search"
+    params = {
+        "apikey": api_key,
+        "q": location
+    }
+    response = requests.get(endpoint, params=params)
+    data = response.json()
+
+    if data:
+        location_key = data[0]["Key"]
+        forecast_endpoint = f"{base_url}/currentconditions/v1/{location_key}"
+        forecast_params = {
+            "apikey": api_key
+        }
+        forecast_response = requests.get(forecast_endpoint, params=forecast_params)
+        forecast_data = forecast_response.json()
+
+        if forecast_data:
+            weather_text = forecast_data[0]["WeatherText"]
+            temperature = forecast_data[0]["Temperature"]["Metric"]["Value"]
+            bot.send_message(
+                chat_id=message.chat.id,
+                text=f"The weather in {location} is {weather_text} with a temperature of {temperature}°C.",
+            )
+        else:
+            bot.send_message(
+                chat_id=message.chat.id,
+                text="Unable to fetch the weather information.",
+            )
+    else:
+        bot.send_message(chat_id=message.chat.id, text="Location not found.")
+
+# Handle inline queries
+@bot.on_inline_query()
+def inline_weather(bot: Client, query):
+    # Get the query text (location) from the inline query
+    location = query.query
+
+    # Make a request to the AccuWeather API to get the weather information
+    endpoint = f"{base_url}/locations/v1/cities/search"
+    params = {
+        "apikey": api_key,
+        "q": location
+    }
+    response = requests.get(endpoint, params=params)
+    data = response.json()
+
+    if data:
+        location_key = data[0]["Key"]
+        forecast_endpoint = f"{base_url}/currentconditions/v1/{location_key}"
+        forecast_params = {
+            "apikey": api_key
+        }
+        forecast_response = requests.get(forecast_endpoint, params=forecast_params)
+        forecast_data = forecast_response.json()
+
+        if forecast_data:
+            weather_text = forecast_data[0]["WeatherText"]
+            temperature = forecast_data[0]["Temperature"]["Metric"]["Value"]
+            results = [
+                InlineQueryResultArticle(
+                    id="1",
+                    title=f"Weather in {location}",
+                    input_message_content=InputTextMessageContent(
+                        f"The weather in {location} is {weather_text} with a temperature of {temperature}°C."
+                    ),
+                )
+            ]
+            bot.answer_inline_query(query.id, results=results)
+        else:
+            bot.answer_inline_query(query.id, results=[])
+    else:
+        bot.answer_inline_query(query.id, results=[])
+
+# Handle the "/help" command
+@bot.on_message(filters.command("help"))
+def help(bot: Client, message: Message):
+    help_text = (
+        "AccuWeather Bot Help\n\n"
+        "This bot provides the current weather information for a location.\n\n"
+        "Commands:\n"
+        "/start - Start the bot and get a welcome message.\n"
+        "/help - Get help and instructions for using the bot.\n"
+        "/weather <location> - Get the current weather for a location."
     )
+    bot.send_message(chat_id=message.chat.id, text=help_text)
 
+# Error handling
+@bot.on_message(filters.command("weather") & filters.private)
+def error_handler(bot: Client, message: Message):
+    bot.send_message(chat_id=message.chat.id, text="Please provide a valid location.")
 
-    # Construct the help message with bot info
-
-    help_message = f"🤖 **My Bot Info** 🤖\n\n" \
-                   f"🟢 **Name:**About Nano\n" \
-                   f"🟢 **Username:**@AboutNanoBot\n" \
-                   f"🟢 **Description:**This Bot Made By Nano\n"
-
-    # Send help message with inline keyboard
-    client.send_message(
-        chat_id=message.chat.id,
-        text=help_message,
-        reply_markup=keyboard
-    )
 # Run the bot
-app.start()
+bot.run()
 idle()
