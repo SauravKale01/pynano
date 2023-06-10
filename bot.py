@@ -13,12 +13,12 @@ API_HASH = '12bbd720f4097ba7713c5e40a11dfd2a'
 # Initialize the Telegram bot
 bot = Client('weather_bot', api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
 
-# Start command handler
 @bot.on_message(filters.command('start'))
 def start_command(client, message):
-    # Send a welcome message and an image
-    client.send_message(message.chat.id, 'Welcome to the Weather Bot!')
-    client.send_photo(message.chat.id, 'https://graph.org/file/c59aa664bb6f449f271b5.jpg')
+    # Send a welcome caption and an image
+    caption = 'Welcome to the Weather Bot! Enjoy your stay.'
+    client.send_photo(message.chat.id, 'https://graph.org/file/c59aa664bb6f449f271b5.jpg', caption=caption)
+
 
 # Weather command handler
 @bot.on_message(filters.command('weather'))
