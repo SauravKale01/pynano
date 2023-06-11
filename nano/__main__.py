@@ -1,4 +1,4 @@
-from pyrogram import Client, filters
+from pyrogram import Client, filters, idle
 
 app = Client("my_bot", config_file="config.py")
 
@@ -7,3 +7,4 @@ def hello(_, message):
     message.reply_text("Hello, world!")
 
 app.run()
+idle()
