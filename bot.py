@@ -6,7 +6,7 @@ from pyrogram import Client, filters, idle
 
 # AccuWeather API credentials
 
-ACCUWEATHER_API_KEY = ""
+ACCUWEATHER_API_KEY = "N3co0uwxaCuE0QG9KgwAaRL9vgor5MKe"
 
 # Telegram bot credentials
 
@@ -27,8 +27,7 @@ def start_command(client, message):
     # Send a welcome caption and an image
 
     caption = "Welcome to the AccuWeather Bot\n\nDev: @SexyNano"
-
-    bot.send_photo(message.chat.id, "https://graph.org/file/c59aa66bb6f44927165.jpg", caption=caption)
+    bot.send_photo(message.chat.id, "https://graph.org/file/c59aa664bb6f449f271b5.jpg", caption=caption)
 
 @bot.on_message(filters.command("help"))
 
@@ -105,18 +104,16 @@ def weather_command(client, message):
 
     # Send the weather information to the user
 
-    message_text = f"Weather forecast for {location}:\n"
-
-    message_text += f"Date: {date}\n"
-
-    message_text += f"Temperature: {temperature_min}°C - {temperature_max}°C\n"
-
-    message_text += f"Day: {day_weather_text}\n"
-
-    message_text += f"Night: {night_weather_text}"
+    message_text = f"Weather forecast for ```{location}```:\n"
+    message_text = f"Date: ```{date}```\n"
+    message_text = f"Temperature: ```{temperature_min}```°C - ```{temperature_max}```°C\n"
+    message_text = f"Day: ```{day_weather_text}```\n"
+    message_text = f"Night: ```{night_weather_text}```\n\n"
+    message_text = f"**Whether Info By: @AccuWeatherRoBot**"
 
     bot.send_message(message.chat.id, message_text)
 
 # Run the bot
 
 bot.run()
+idle()
