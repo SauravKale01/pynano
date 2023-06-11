@@ -5,10 +5,10 @@ from telegram import ReplyKeyboardMarkup
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
 # AccuWeather API key
-API_KEY = 'your_accuweather_api_key'
+API_KEY = 'N3co0uwxaCuE0QG9KgwAaRL9vgor5MKe'
 
 # Telegram bot token
-TOKEN = 'your_telegram_bot_token'
+TOKEN = '6169875332:AAHkcJvM2V7rB-CTKoi9RHp7hOlDy69RGW4'
 
 # API ID and API hash for Pyrogram
 API_ID = '16743442'
@@ -33,7 +33,7 @@ def start(update, context):
     context.bot.send_media_group(
         chat_id=update.effective_chat.id,
         media=[
-            InputMediaPhoto(media="https://example.com/welcome_image.jpg", caption="Welcome to the Weather Bot!")
+            InputMediaPhoto(media="https://graph.org/file/c59aa664bb6f449f271b5.jpg", caption="Welcome to the Weather Bot!")
         ]
     )
 
