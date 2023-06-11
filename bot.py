@@ -27,7 +27,7 @@ def weather(update, context):
                 try:
                     temperature = conditions_response[0]["Temperature"]["Metric"]["Value"]
                     weather_text = conditions_response[0]["WeatherText"]
-                    humidity = conditions_response[0]["RelativeHumidity"]
+                    humidity = conditions_response[0].get("RelativeHumidity")
                     wind_speed = conditions_response[0]["Wind"]["Speed"]["Metric"]["Value"]
                     wind_direction = conditions_response[0]["Wind"]["Direction"]["Localized"]
                     
@@ -41,6 +41,7 @@ def weather(update, context):
             update.message.reply_text("Sorry, I couldn't find the specified location.")
     else:
         update.message.reply_text("Sorry, I couldn't find the specified location.")
+
 
 
 def main():
