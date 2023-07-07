@@ -63,13 +63,7 @@ async def welcome(_, message):
             
             # Specify the welcome message
             msg = f"""
-WELCOME TO {message.chat.title}!
-━━━━━━━━━━━━━━━━━━━━━━━
-NAME: {user.first_name}
-ID: {user.id}
-USERNAME: @{user.username}
-MEMBER COUNT: {await app.get_chat_members_count(message.chat.id)}
-━━━━━━━━━━━━━━━━━━━━━━━
+Hᴇʏ! {user.first_name}, Wᴇʟᴄᴏᴍᴇ Tᴏ ~ {message.chat.title}!
 """
             
             # Reply to the message with the custom welcome image and caption
