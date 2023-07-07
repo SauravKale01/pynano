@@ -27,8 +27,8 @@ async def welcome(_, message):
             # Load the custom welcome template image
             welcome_image = Image.open("template/UchihaMadara.png")
             welcome_image = welcome_image.resize((image_width, image_height))
-           
-            # Load and resize the new user's profile picture         
+            
+            # Load and resize the new user's profile picture
             profile_pic = Image.open(response)
             profile_pic = profile_pic.resize((150, 150))
             
@@ -49,7 +49,7 @@ async def welcome(_, message):
             profile_pic_position = (10, (image_height - profile_pic.height) // 2)
             
             # Paste the circular profile picture onto the welcome image
-            welcome_with_profile_pic.paste(profile_pic, profile_pic_position, profile_pic)                        
+            welcome_with_profile_pic.paste(profile_pic, profile_pic_position, profile_pic)                                  
             
             # Save the final welcome image with a unique name based on the user's ID
             welcome_image_path = f"welcome_{user.id}.jpg"
