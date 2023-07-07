@@ -59,10 +59,16 @@ async def welcome(_, message):
             draw = ImageDraw.Draw(welcome_image_with_details)
             user_name = user.first_name
             group_name = message.chat.title
-            text_position = ((image_width - draw.textsize(user_name)[0]) // 2, image_height + 10)
-            draw.text(text_position, user_name, fill="white")
-            text_position = ((image_width - draw.textsize(group_name)[0]) // 2, image_height + 40)
-            draw.text(text_position, group_name, fill="white")
+            
+            # Calculate text size using textbbox instead of deprecated textsize
+            user_name_width, user_name_height = draw.textbbox((0, 0), user_name, font=ImageFont.truetype("path/to/font.ttf", 20))
+            group_name_width, group_name_height = draw.textbbox((0, 0), group_name, font=ImageFont.truetype("path/to/font.ttf", 20))
+            
+            # Position the text
+            text_position = ((image_width - user_name_width) // 2, image_height + 10)
+            draw.text(text_position, user_name, fill="white", font=ImageFont.truetype("path/to/font.ttf", 20))
+            text_position = ((image_width - group_name_width) // 2, image_height + 40)
+            draw.text(text_position, group_name, fill="white", font=ImageFont.truetype("path/to/font.ttf", 20))
             
             # Save the final welcome image
             welcome_image_path = "IMG_20230707_080023_554.jpg"
