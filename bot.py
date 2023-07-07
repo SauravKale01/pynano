@@ -9,10 +9,14 @@ markup = InlineKeyboardMarkup([[InlineKeyboardButton("MODS", url="https://t.me/x
 # Your bot credentials and access tokens
 api_id = 16743442  # Replace with your API ID
 api_hash = "12bbd720f4097ba7713c5e40a11dfd2a"  # Replace with your API hash
-bot_token = "6206599982:AAGqsDDURBhd4d9677sKxCYNCRU5TeqieMc"  # Replace with your bot token
+bot_token = "your_bot_token"  # Replace with your bot token
 
 # Create the Client object
 app = Client("welcome_bot", api_id=api_id, api_hash=api_hash, bot_token=bot_token)
+
+# Paths for the welcome template image and the generated welcome images
+welcome_template_image_path = "path/to/welcome_template.jpg"
+welcome_images_directory = "path/to/welcome_images"
 
 @app.on_message(filters.new_chat_members & filters.group)
 async def welcome(_, message):
@@ -25,13 +29,8 @@ async def welcome(_, message):
             image_width = 600
             image_height = 400
             
-            # Remove previous welcome image
-            welcome_image_path = "IMG_20230707_080023_554.jpg"
-            if os.path.exists(welcome_image_path):
-                os.remove(welcome_image_path)
-            
             # Load the custom welcome template image
-            welcome_image = Image.open("IMG_20230707_080023_554.jpg")
+            welcome_image = Image.open(welcome_template_image_path)
             welcome_image = welcome_image.resize((image_width, image_height))
             
             # Load and resize the new user's profile picture
@@ -57,8 +56,9 @@ async def welcome(_, message):
             # Paste the circular profile picture onto the welcome image
             welcome_with_profile_pic.paste(profile_pic, profile_pic_position, profile_pic)
             
-            # Save the final welcome image
-            welcome_image_path = "IMG_20230707_080023_554.jpg"
+            # Save the final welcome image with a unique name
+            welcome_image_filename = f"welcome_{user.id}.jpg"
+            welcome_image_path = os.path.join(welcome_images_directory, welcome_image_filename)
             welcome_with_profile_pic.save(welcome_image_path)
             
             # Specify the welcome message
