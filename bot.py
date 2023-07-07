@@ -1,11 +1,10 @@
 from pyrogram import Client, filters, idle
-from PIL import Image
+from PIL import Image, ImageDraw, ImageOps
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
-
 # Add any button you want below your welcome image
-markup = InlineKeyboardMarkup([[InlineKeyboardButton("MODS", url="https://t.me/xxx")]])
+markup = InlineKeyboardMarkup([[InlineKeyboardButton("MODED", url="https://t.me/SexyNano")]])
 
 # Your bot credentials and access tokens
 api_id = 16743442  # Replace with your API ID
@@ -37,9 +36,19 @@ async def welcome(_, message):
             # Create a new blank image for the combined welcome image
             welcome_with_profile_pic = Image.new("RGB", (image_width, image_height))
             
-            # Paste the welcome template and profile picture onto the new image
+            # Paste the welcome template onto the new image
             welcome_with_profile_pic.paste(welcome_image, (0, 0))
-            welcome_with_profile_pic.paste(profile_pic, ((image_width - profile_pic.width) // 2, (image_height - profile_pic.height) // 2))
+            
+            # Apply a circular mask to the profile picture
+            mask = Image.new("L", profile_pic.size, 0)
+            mask_draw = ImageDraw.Draw(mask)
+            mask_draw.ellipse((0, 0, profile_pic.size[0], profile_pic.size[1]), fill=255)
+            profile_pic = ImageOps.fit(profile_pic, mask.size)
+            profile_pic.putalpha(mask)
+            
+            # Paste the circular profile picture onto the welcome image
+            profile_pic_position = ((image_width - profile_pic.width) // 2, (image_height - profile_pic.height) // 2)
+            welcome_with_profile_pic.paste(profile_pic, profile_pic_position, profile_pic)
             
             # Save the final welcome image
             welcome_image_path = "IMG_20230707_080023_554.jpg"
@@ -62,4 +71,4 @@ COUNT: {await app.get_chat_members_count(message.chat.id)}
 
 # Run the client
 app.run()
-idle() 
+idle()
