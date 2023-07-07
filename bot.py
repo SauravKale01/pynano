@@ -9,14 +9,14 @@ markup = InlineKeyboardMarkup([[InlineKeyboardButton("MODS", url="https://t.me/x
 # Your bot credentials and access tokens
 api_id = 16743442  # Replace with your API ID
 api_hash = "12bbd720f4097ba7713c5e40a11dfd2a"  # Replace with your API hash
-bot_token = "your_bot_token"  # Replace with your bot token
+bot_token = "6206599982:AAGqsDDURBhd4d9677sKxCYNCRU5TeqieMc"  # Replace with your bot token
 
 # Create the Client object
 app = Client("welcome_bot", api_id=api_id, api_hash=api_hash, bot_token=bot_token)
 
 # Paths for the welcome template image and the generated welcome images
-welcome_template_image_path = "path/to/welcome_template.jpg"
-welcome_images_directory = "path/to/welcome_images"
+welcome_template_image_path = "template/IMG_20230707_121124_088.jpg"
+welcome_images_directory = "template/IMG_20230707_121124_088.jpg"
 
 @app.on_message(filters.new_chat_members & filters.group)
 async def welcome(_, message):
