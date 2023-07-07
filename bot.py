@@ -21,8 +21,8 @@ async def welcome(_, message):
             response = await app.download_media(profile_pic_url)
             
             # Modify the dimensions and appearance of the welcome image as desired
-            image_width = 600
-            image_height = 400
+            image_width = 1280
+            image_height = 720
             
             # Load the custom welcome template image
             welcome_image = Image.open("template/IMG_20230707_134714_013.jpg")
@@ -30,7 +30,7 @@ async def welcome(_, message):
             
             # Load and resize the new user's profile picture
             profile_pic = Image.open(response)
-            profile_pic = profile_pic.resize((150, 150))
+            profile_pic = profile_pic.resize((image_width // 2, image_height // 2))
             
             # Create a new blank image for the combined welcome image
             welcome_with_profile_pic = Image.new("RGB", (image_width, image_height))
