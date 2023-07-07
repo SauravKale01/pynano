@@ -4,7 +4,7 @@ from PIL import Image, ImageDraw, ImageOps, ImageFont
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 # Add any button you want below your welcome image
-markup = InlineKeyboardMarkup([[InlineKeyboardButton("MODS", url="https://t.me/xxx")]])
+markup = InlineKeyboardMarkup([[InlineKeyboardButton("Sᴜᴘᴘᴏʀᴛ", url="https://t.me/JHBots")]])
 
 @app.on_message(filters.new_chat_members & filters.group)
 async def welcome(_, message):
