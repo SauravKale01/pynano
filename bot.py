@@ -1,3 +1,4 @@
+import os
 from pyrogram import Client, filters, idle
 from PIL import Image, ImageDraw, ImageOps, ImageFont
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
@@ -30,7 +31,7 @@ async def welcome(_, message):
             
             # Load and resize the new user's profile picture
             profile_pic = Image.open(response)
-            profile_pic = profile_pic.resize((150, 150))
+            profile_pic = profile_pic.resize((300, 300))
             
             # Create a new blank image for the combined welcome image
             welcome_with_profile_pic = Image.new("RGB", (image_width, image_height))
@@ -41,7 +42,7 @@ async def welcome(_, message):
             # Apply a circular mask to the profile picture
             mask = Image.new("L", profile_pic.size, 0)
             mask_draw = ImageDraw.Draw(mask)
-            mask_draw.ellipse((0, 0, profile_pic.size[0], profile_pic.size[1]), fill=255)
+            mask_draw.ellipse((0, 0, profile_pic.size[0], profile_pic.size[1]), fill=455)
             profile_pic = ImageOps.fit(profile_pic, mask.size)
             profile_pic.putalpha(mask)
             
