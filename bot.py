@@ -2,7 +2,6 @@ from pyrogram import Client, filters, idle
 from PIL import Image, ImageDraw, ImageOps
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-
 # Add any button you want below your welcome image
 markup = InlineKeyboardMarkup([[InlineKeyboardButton("MODS", url="https://t.me/xxx")]])
 
@@ -52,8 +51,15 @@ async def welcome(_, message):
             # Paste the circular profile picture onto the welcome image
             welcome_with_profile_pic.paste(profile_pic, profile_pic_position, profile_pic)
             
-            # Save the final welcome image
-            welcome_image_path = "IMG_20230707_080023_554.jpg"
+            # Add text on the right side with the group name
+            draw = ImageDraw.Draw(welcome_with_profile_pic)
+            group_name = message.chat.title
+            text_width, text_height = draw.textsize(group_name)
+            text_position = (image_width - text_width - 10, (image_height - text_height) // 2)
+            draw.text(text_position, group_name, fill=(255, 255, 255))
+            
+            # Save the final welcome image with a unique name based on the user's ID
+            welcome_image_path = f"welcome_{user.id}.jpg"
             welcome_with_profile_pic.save(welcome_image_path)
             
             # Specify the welcome message
@@ -68,6 +74,10 @@ COUNT: {await app.get_chat_members_count(message.chat.id)}
             
             # Reply to the message with the custom welcome image and caption
             await message.reply_photo(photo=welcome_image_path, caption=msg, reply_markup=markup)
+            
+            # Remove the temporary welcome image file
+            welcome_with_profile_pic.close()
+            os.remove(welcome_image_path)
         except Exception as e:
             print(f"Error sending welcome message for {user.first_name}: {str(e)}")
 
