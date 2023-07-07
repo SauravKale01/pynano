@@ -29,9 +29,6 @@ async def welcome(_, message):
             welcome_image = Image.open("IMG_20230707_080023_554.jpg")
             welcome_image = welcome_image.resize((image_width, image_height))
             
-            # Load and resize the new user's profile picture
-            profile_pic = Image.open(response)
-            profile_pic = profile_pic.resize((150, 150))
             
             # Create a new blank image for the combined welcome image
             welcome_with_profile_pic = Image.new("RGB", (image_width, image_height))
