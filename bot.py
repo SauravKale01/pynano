@@ -1,7 +1,7 @@
-import os
 from pyrogram import Client, filters, idle
 from PIL import Image, ImageDraw, ImageOps
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+
 
 # Add any button you want below your welcome image
 markup = InlineKeyboardMarkup([[InlineKeyboardButton("MODS", url="https://t.me/xxx")]])
@@ -14,23 +14,19 @@ bot_token = "6206599982:AAGqsDDURBhd4d9677sKxCYNCRU5TeqieMc"  # Replace with you
 # Create the Client object
 app = Client("welcome_bot", api_id=api_id, api_hash=api_hash, bot_token=bot_token)
 
-# Paths for the welcome template image and the generated welcome images
-welcome_template_image_path = "template/IMG_20230707_121124_088.jpg"
-welcome_images_directory = "template/IMG_20230707_121124_088.jpg"
-
 @app.on_message(filters.new_chat_members & filters.group)
 async def welcome(_, message):
     for user in message.new_chat_members:
         try:
             profile_pic_url = user.photo.big_file_id
             response = await app.download_media(profile_pic_url)
-
+            
             # Modify the dimensions and appearance of the welcome image as desired
             image_width = 600
             image_height = 400
             
             # Load the custom welcome template image
-            welcome_image = Image.open(welcome_template_image_path)
+            welcome_image = Image.open("template/IMG_20230707_121124_088.jpg")
             welcome_image = welcome_image.resize((image_width, image_height))
             
             # Load and resize the new user's profile picture
@@ -56,9 +52,8 @@ async def welcome(_, message):
             # Paste the circular profile picture onto the welcome image
             welcome_with_profile_pic.paste(profile_pic, profile_pic_position, profile_pic)
             
-            # Save the final welcome image with a unique name
-            welcome_image_filename = f"welcome_{user.id}.jpg"
-            welcome_image_path = os.path.join(welcome_images_directory, welcome_image_filename)
+            # Save the final welcome image
+            welcome_image_path = "IMG_20230707_080023_554.jpg"
             welcome_with_profile_pic.save(welcome_image_path)
             
             # Specify the welcome message
@@ -72,7 +67,7 @@ COUNT: {await app.get_chat_members_count(message.chat.id)}
 """
             
             # Reply to the message with the custom welcome image and caption
-            await message.reply_photo(photo=open(welcome_image_path, 'rb'), caption=msg, reply_markup=markup)
+            await message.reply_photo(photo=welcome_image_path, caption=msg, reply_markup=markup)
         except Exception as e:
             print(f"Error sending welcome message for {user.first_name}: {str(e)}")
 
