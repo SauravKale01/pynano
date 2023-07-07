@@ -24,10 +24,14 @@ async def welcome(_, message):
             # Modify the dimensions and appearance of the welcome image as desired
             image_width = 600
             image_height = 400
-                      
+            
+            # Remove previous welcome image
+            welcome_image_path = "IMG_20230707_080023_554.jpg"
+            if os.path.exists(welcome_image_path):
+                os.remove(welcome_image_path)
             
             # Load the custom welcome template image
-            welcome_image = Image.open("https://graph.org/file/6468a53d4774b0b677ddb.jpg")
+            welcome_image = Image.open("IMG_20230707_080023_554.jpg")
             welcome_image = welcome_image.resize((image_width, image_height))
             
             # Load and resize the new user's profile picture
@@ -54,9 +58,8 @@ async def welcome(_, message):
             welcome_with_profile_pic.paste(profile_pic, profile_pic_position, profile_pic)
             
             # Save the final welcome image
+            welcome_image_path = "IMG_20230707_080023_554.jpg"
             welcome_with_profile_pic.save(welcome_image_path)
-
-            
             
             # Specify the welcome message
             msg = f"""
@@ -69,7 +72,7 @@ COUNT: {await app.get_chat_members_count(message.chat.id)}
 """
             
             # Reply to the message with the custom welcome image and caption
-            await message.reply_photo(photo=welcome_image_path, caption=msg, reply_markup=markup)
+            await message.reply_photo(photo=open(welcome_image_path, 'rb'), caption=msg, reply_markup=markup)
         except Exception as e:
             print(f"Error sending welcome message for {user.first_name}: {str(e)}")
 
