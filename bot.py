@@ -27,7 +27,7 @@ async def welcome(_, message):
             image_height = 400
             
             # Load the custom welcome template image
-            welcome_image = Image.open("path/to/IMG_20230707_080023_554.jpg")
+            welcome_image = Image.open("IMG_20230707_080023_554.jpg")
             welcome_image = welcome_image.resize((image_width, image_height))
             
             # Load and resize the new user's profile picture
@@ -42,7 +42,7 @@ async def welcome(_, message):
             welcome_with_profile_pic.paste(profile_pic, ((image_width - profile_pic.width) // 2, (image_height - profile_pic.height) // 2))
             
             # Save the final welcome image
-            welcome_image_path = "path/to/IMG_20230707_080023_554.jpg"
+            welcome_image_path = "IMG_20230707_080023_554.jpg"
             welcome_with_profile_pic.save(welcome_image_path)
             
             # Specify the welcome message
