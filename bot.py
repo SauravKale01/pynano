@@ -26,7 +26,7 @@ async def welcome(_, message):
             image_height = 400
             
             # Remove previous welcome image
-            welcome_image_path = "IMG_20230707_080023_554.jpg"
+            welcome_image_path = "IMG_20230601_152627_048.jpg"
             if os.path.exists(welcome_image_path):
                 os.remove(welcome_image_path)
             
