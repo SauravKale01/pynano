@@ -4,7 +4,7 @@ from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
 # Add any button you want below your welcome image
-markup = InlineKeyboardMarkup([[InlineKeyboardButton("MODED", url="https://t.me/SexyNano")]])
+markup = InlineKeyboardMarkup([[InlineKeyboardButton("MODS", url="https://t.me/xxx")]])
 
 # Your bot credentials and access tokens
 api_id = 16743442  # Replace with your API ID
@@ -28,11 +28,11 @@ async def welcome(_, message):
             # Load the custom welcome template image
             welcome_image = Image.open("IMG_20230707_080023_554.jpg")
             welcome_image = welcome_image.resize((image_width, image_height))
-
+            
             # Load and resize the new user's profile picture
             profile_pic = Image.open(response)
             profile_pic = profile_pic.resize((150, 150))
-                       
+            
             # Create a new blank image for the combined welcome image
             welcome_with_profile_pic = Image.new("RGB", (image_width, image_height))
             
@@ -46,8 +46,10 @@ async def welcome(_, message):
             profile_pic = ImageOps.fit(profile_pic, mask.size)
             profile_pic.putalpha(mask)
             
+            # Calculate the position of the profile picture on the left side
+            profile_pic_position = (10, (image_height - profile_pic.height) // 2)
+            
             # Paste the circular profile picture onto the welcome image
-            profile_pic_position = ((image_width - profile_pic.width) // 2, (image_height - profile_pic.height) // 2)
             welcome_with_profile_pic.paste(profile_pic, profile_pic_position, profile_pic)
             
             # Save the final welcome image
