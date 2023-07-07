@@ -1,5 +1,5 @@
 from pyrogram import Client, filters, idle
-from PIL import Image, ImageDraw, ImageOps
+from PIL import Image, ImageDraw, ImageOps, ImageFont
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 # Add any button you want below your welcome image
@@ -30,7 +30,7 @@ async def welcome(_, message):
             
             # Load and resize the new user's profile picture
             profile_pic = Image.open(response)
-            profile_pic = profile_pic.resize((150, 150))
+            profile_pic = profile_pic.resize((image_width // 2, image_height // 2))
             
             # Create a new blank image for the combined welcome image
             welcome_with_profile_pic = Image.new("RGB", (image_width, image_height))
@@ -53,10 +53,11 @@ async def welcome(_, message):
             
             # Add text on the right side with the group name
             draw = ImageDraw.Draw(welcome_with_profile_pic)
-            group_name = message.chat.title
-            text_width, text_height = draw.textsize(group_name)
-            text_position = (image_width - text_width - 60, (image_height - text_height) // 5)
-            draw.text(text_position, group_name, fill=(255, 255, 255))
+            group_name = "Welcome to " + message.chat.title
+            text_font = ImageFont.truetype("arial.ttf", 24)  # Replace with your desired font and size
+            text_width, text_height = draw.textsize(group_name, font=text_font)
+            text_position = (image_width - text_width - 10, (image_height - text_height) // 2)
+            draw.text(text_position, group_name, fill=(255, 255, 255), font=text_font)
             
             # Save the final welcome image with a unique name based on the user's ID
             welcome_image_path = f"welcome_{user.id}.jpg"
