@@ -47,7 +47,7 @@ async def welcome(_, message):
             profile_pic.putalpha(mask)
             
             # Calculate the position of the profile picture on the left side
-            profile_pic_position = (10, (image_height - profile_pic.height) // 2 + 50)
+            profile_pic_position = (30, (image_height - profile_pic.height) // 2 + 60)
             
             # Paste the circular profile picture onto the welcome image
             welcome_with_profile_pic.paste(profile_pic, profile_pic_position, profile_pic)                                  
