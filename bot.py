@@ -24,11 +24,7 @@ async def welcome(_, message):
             # Modify the dimensions and appearance of the welcome image as desired
             image_width = 600
             image_height = 400
-            
-            # Remove previous welcome image
-            welcome_image_path = "IMG_20230601_152627_048.jpg"
-            if os.path.exists(welcome_image_path):
-                os.remove(welcome_image_path)
+                      
             
             # Load the custom welcome template image
             welcome_image = Image.open("IMG_20230707_080023_554.jpg")
@@ -59,6 +55,11 @@ async def welcome(_, message):
             
             # Save the final welcome image
             welcome_with_profile_pic.save(welcome_image_path)
+
+            # Remove previous welcome image
+            welcome_image_path = "IMG_20230601_152627_048.jpg"
+            if os.path.exists(welcome_image_path):
+                os.remove(welcome_image_path)
             
             # Specify the welcome message
             msg = f"""
