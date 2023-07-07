@@ -1,5 +1,5 @@
 from pyrogram import Client, filters, idle
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageFont
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
