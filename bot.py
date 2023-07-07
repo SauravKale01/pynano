@@ -55,7 +55,7 @@ async def welcome(_, message):
             draw = ImageDraw.Draw(welcome_with_profile_pic)
             group_name = message.chat.title
             text_width, text_height = draw.textsize(group_name)
-            text_position = (image_width - text_width - 10, (image_height - text_height) // 2)
+            text_position = (image_width - text_width - 60, (image_height - text_height) // 5)
             draw.text(text_position, group_name, fill=(255, 255, 255))
             
             # Save the final welcome image with a unique name based on the user's ID
