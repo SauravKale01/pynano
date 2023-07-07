@@ -45,6 +45,11 @@ async def welcome(_, message):
             mask_draw.ellipse((0, 0, profile_pic.size[0], profile_pic.size[1]), fill=455)
             profile_pic = ImageOps.fit(profile_pic, mask.size)
             profile_pic.putalpha(mask)
+
+            # Add an outline to the profile picture
+            outline_color = (255, 255, 255)  # White color for the outline
+            border_width = 4  # Adjust the border width as desired
+            profile_pic_with_outline = ImageOps.expand(profile_pic, border=border_width, fill=outline_color)            
             
             # Calculate the position of the profile picture on the left side
             profile_pic_position = (150, (image_height - profile_pic.height) // 2 + 140)
