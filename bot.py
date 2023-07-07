@@ -27,7 +27,7 @@ async def welcome(_, message):
                       
             
             # Load the custom welcome template image
-            welcome_image = Image.open("IMG_20230707_080023_554.jpg")
+            welcome_image = Image.open("https://graph.org/file/6468a53d4774b0b677ddb.jpg")
             welcome_image = welcome_image.resize((image_width, image_height))
             
             # Load and resize the new user's profile picture
