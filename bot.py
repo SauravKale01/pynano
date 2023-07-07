@@ -22,8 +22,8 @@ async def welcome(_, message):
             response = await app.download_media(profile_pic_url)
             
             # Modify the dimensions and appearance of the welcome image as desired
-            image_width = 1280
-            image_height = 720
+            image_width = 600
+            image_height = 400
             
             # Load the custom welcome template image
             welcome_image = Image.open("template/MadaraUchiha.jpg")
