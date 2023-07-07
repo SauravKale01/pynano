@@ -48,7 +48,7 @@ async def welcome(_, message):
 
             # Add an outline to the profile picture
             outline_color = (255, 255, 255)  # White color for the outline
-            border_width = 4  # Adjust the border width as desired
+            border_width = 9  # Adjust the border width as desired
             profile_pic_with_outline = ImageOps.expand(profile_pic, border=border_width, fill=outline_color)            
             
             # Calculate the position of the profile picture on the left side
