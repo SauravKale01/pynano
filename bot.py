@@ -7,7 +7,7 @@ markup = InlineKeyboardMarkup([[InlineKeyboardButton("MODS", url="https://t.me/x
 # Your bot credentials and access tokens
 api_id = 16743442  # Replace with your API ID
 api_hash = "12bbd720f4097ba7713c5e40a11dfd2a"  # Replace with your API hash
-bot_token = "your_bot_token"  # Replace with your bot token
+bot_token = "6206599982:AAGqsDDURBhd4d9677sKxCYNCRU5TeqieMc"  # Replace with your bot token
 
 # Create the Client object
 app = Client("welcome_bot", api_id=api_id, api_hash=api_hash, bot_token=bot_token)
