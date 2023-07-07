@@ -49,15 +49,7 @@ async def welcome(_, message):
             profile_pic_position = (10, (image_height - profile_pic.height) // 2)
             
             # Paste the circular profile picture onto the welcome image
-            welcome_with_profile_pic.paste(profile_pic, profile_pic_position, profile_pic)
-            
-            # Add text on the right side with the group name
-            draw = ImageDraw.Draw(welcome_with_profile_pic)
-            group_name = "Welcome to " + message.chat.title
-            text_font = ImageFont.truetype("arial.ttf", 60)  # Replace with your desired font and size
-            text_width, text_height = draw.textsize(group_name, font=text_font)
-            text_position = (image_width - text_width - 10, (image_height - text_height) // 2)
-            draw.text(text_position, group_name, fill=(255, 255, 255), font=text_font)
+            welcome_with_profile_pic.paste(profile_pic, profile_pic_position, profile_pic)                        
             
             # Save the final welcome image with a unique name based on the user's ID
             welcome_image_path = f"welcome_{user.id}.jpg"
@@ -65,12 +57,13 @@ async def welcome(_, message):
             
             # Specify the welcome message
             msg = f"""
-Welcome to {message.chat.title}!
-
+WELCOME TO {message.chat.title}!
+━━━━━━━━━━━━━━━━━━━━━━━
 NAME: {user.first_name}
 ID: {user.id}
 USERNAME: @{user.username}
-COUNT: {await app.get_chat_members_count(message.chat.id)}
+MEMBER COUNT: {await app.get_chat_members_count(message.chat.id)}
+━━━━━━━━━━━━━━━━━━━━━━━
 """
             
             # Reply to the message with the custom welcome image and caption
