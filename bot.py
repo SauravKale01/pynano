@@ -1,7 +1,7 @@
+import os
 from pyrogram import Client, filters, idle
 from PIL import Image, ImageDraw, ImageOps
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-
 
 # Add any button you want below your welcome image
 markup = InlineKeyboardMarkup([[InlineKeyboardButton("MODS", url="https://t.me/xxx")]])
@@ -20,10 +20,15 @@ async def welcome(_, message):
         try:
             profile_pic_url = user.photo.big_file_id
             response = await app.download_media(profile_pic_url)
-            
+
             # Modify the dimensions and appearance of the welcome image as desired
             image_width = 600
             image_height = 400
+            
+            # Remove previous welcome image
+            welcome_image_path = "IMG_20230707_080023_554.jpg"
+            if os.path.exists(welcome_image_path):
+                os.remove(welcome_image_path)
             
             # Load the custom welcome template image
             welcome_image = Image.open("IMG_20230707_080023_554.jpg")
@@ -53,7 +58,6 @@ async def welcome(_, message):
             welcome_with_profile_pic.paste(profile_pic, profile_pic_position, profile_pic)
             
             # Save the final welcome image
-            welcome_image_path = "IMG_20230707_080023_554.jpg"
             welcome_with_profile_pic.save(welcome_image_path)
             
             # Specify the welcome message
