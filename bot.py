@@ -30,7 +30,7 @@ async def welcome(_, message):
             
             # Load and resize the new user's profile picture
             profile_pic = Image.open(response)
-            profile_pic = profile_pic.resize((image_width // 2, image_height // 2))
+            profile_pic = profile_pic.resize((150, 150))
             
             # Create a new blank image for the combined welcome image
             welcome_with_profile_pic = Image.new("RGB", (image_width, image_height))
@@ -54,7 +54,7 @@ async def welcome(_, message):
             # Add text on the right side with the group name
             draw = ImageDraw.Draw(welcome_with_profile_pic)
             group_name = "Welcome to " + message.chat.title
-            text_font = ImageFont.truetype("arial.ttf", 24)  # Replace with your desired font and size
+            text_font = ImageFont.truetype("arial.ttf", 60)  # Replace with your desired font and size
             text_width, text_height = draw.textsize(group_name, font=text_font)
             text_position = (image_width - text_width - 10, (image_height - text_height) // 2)
             draw.text(text_position, group_name, fill=(255, 255, 255), font=text_font)
