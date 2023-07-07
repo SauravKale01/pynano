@@ -61,14 +61,15 @@ async def welcome(_, message):
             group_name = message.chat.title
             
             # Calculate text size using textbbox instead of deprecated textsize
-            user_name_width, user_name_height = draw.textbbox((0, 0), user_name, font=ImageFont.truetype("arial.ttf", 20))
-            group_name_width, group_name_height = draw.textbbox((0, 0), group_name, font=ImageFont.truetype("arial.ttf", 20))
+            font = ImageFont.truetype("arial.ttf", 20)
+            user_name_width, user_name_height = draw.textbbox((0, image_height, image_width, image_height + 60), user_name, font=font)
+            group_name_width, group_name_height = draw.textbbox((0, image_height, image_width, image_height + 60), group_name, font=font)
             
             # Position the text
             text_position = ((image_width - user_name_width) // 2, image_height + 10)
-            draw.text(text_position, user_name, fill="white", font=ImageFont.truetype("arial.ttf", 20))
+            draw.text(text_position, user_name, fill="white", font=font)
             text_position = ((image_width - group_name_width) // 2, image_height + 40)
-            draw.text(text_position, group_name, fill="white", font=ImageFont.truetype("arial.ttf", 20))
+            draw.text(text_position, group_name, fill="white", font=font)
             
             # Save the final welcome image
             welcome_image_path = "IMG_20230707_080023_554.jpg"
