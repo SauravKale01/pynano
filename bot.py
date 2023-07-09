@@ -3,6 +3,13 @@ from pyrogram import Client, filters, idle
 from PIL import Image, ImageDraw, ImageOps, ImageFont
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
+api_id=''
+api_hash=''
+bot_token=''
+
+# client installtion
+
+
 # Add any button you want below your welcome image
 markup = InlineKeyboardMarkup([[InlineKeyboardButton("Sᴜᴘᴘᴏʀᴛ", url="https://t.me/JHBots")]])
 
