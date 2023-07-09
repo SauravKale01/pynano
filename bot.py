@@ -8,7 +8,7 @@ api_hash=''
 bot_token=''
 
 # client installtion
-
+app= Client('welcome_bot', api_id=api_id, api_hash=api_hash, bot_token=bot_token)
 
 # Add any button you want below your welcome image
 markup = InlineKeyboardMarkup([[InlineKeyboardButton("Sᴜᴘᴘᴏʀᴛ", url="https://t.me/JHBots")]])
@@ -75,4 +75,8 @@ Mʏ Sʜᴀʀɪɴɢᴀɴ Aʟᴡᴀʏs Wᴀᴛᴄʜɪɴɢ Yᴏᴜ!
             os.remove(welcome_image_path)
         except Exception as e:
             print(f"Error sending welcome message for {user.first_name}: {str(e)}")
+
+# run the bot
+app.run()
+idle()
 
