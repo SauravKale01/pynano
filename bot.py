@@ -63,7 +63,6 @@ async def welcome(_, message):
             # Specify the welcome message
             msg = f"""
 Hᴇʏ! {user.first_name}, Wᴇʟᴄᴏᴍᴇ Tᴏ ~ {message.chat.title}!
-
 Mʏ Sʜᴀʀɪɴɢᴀɴ Aʟᴡᴀʏs Wᴀᴛᴄʜɪɴɢ Yᴏᴜ!
 """
             
